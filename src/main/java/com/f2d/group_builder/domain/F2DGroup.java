@@ -3,6 +3,7 @@ package com.f2d.group_builder.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ public class F2DGroup {
     private UUID groupId;
 
     @Column(name = "group_name")
+    @NonNull
     private String groupName;
 
     @Column(name = "group_type")
