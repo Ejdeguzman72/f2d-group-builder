@@ -35,10 +35,13 @@ public class F2DGroupService {
         return response;
     }
 
-    public F2DGroupAddUpdateResponse createF2DGroup(F2DGroupAddUpdateRequest request) {
+    public F2DGroupAddUpdateResponse createF2DGroup(F2DGroupAddUpdateRequest request) throws Exception {
         F2DGroupAddUpdateResponse response = new F2DGroupAddUpdateResponse();
         request.setCreateTime(LocalDate.now());
         request.setLastUpdateTime(LocalDate.now());
+        if (checkGroupNameDuplicate(request.getGroupName())) {
+            throw new Exception("Duplicate entry");
+        }
         F2DGroup group = f2dGroupRepository.save(request);
 
         try {
@@ -122,5 +125,17 @@ public class F2DGroupService {
 
         response.setF2dGroup(group);
         return response;
+    }
+
+    public boolean checkGroupNameDuplicate(String groupName) {
+        boolean result = false;
+        List<F2DGroup> list = f2dGroupRepository.findAll();
+        for (F2DGroup group : list) {
+            if (group.getGroupName().equals(groupName)) {
+                result = true;
+            }
+        }
+
+        return result;
     }
 }

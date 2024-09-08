@@ -25,7 +25,7 @@ public class F2dGroupController {
     }
 
     @PostMapping(value = UriConstants.ADD_F2D_GROUP)
-    public F2DGroupAddUpdateResponse createF2DGroup(@RequestBody F2DGroupAddUpdateRequest request) {
+    public F2DGroupAddUpdateResponse createF2DGroup(@RequestBody F2DGroupAddUpdateRequest request) throws Exception {
         return f2dGroupService.createF2DGroup(request);
     }
 
