@@ -10,4 +10,6 @@ public class UriConstants {
     public static final String UPDATE_F2D_GROUP = "/groups/update/{groupId}";
     public static final String DELETE_F2D_GROUP = "/groups/delete/{groupId}";
     public static final String F2D_USER_AUTH_RELATIVE_PATH = "/users/search/id/{userId}";
+    public static final String F2D_LOAD_USER_BY_USERNAME = "/users/search/id/{username}";
+    public static final String F2D_GET_ALL_USERS = "/users/all";
 }
