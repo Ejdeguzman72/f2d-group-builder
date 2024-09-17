@@ -9,4 +9,5 @@ public class AppConstant {
 
     public static final String PATH_VARIABLE_USER_ID = "userId";
     public static final String LOCALHOST = "http://localhost:8080";
+    public static final String AUTH_CLIENT_FALLBACK_MSG = "USER AUTH CLIENT SERVICE UNAVAILABLE";
 }

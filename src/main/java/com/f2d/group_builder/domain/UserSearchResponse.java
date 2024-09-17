@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class UserSearchResponse {
 
     F2DUser user;
+    String message;
+    boolean isSuccess;
 
     public F2DUser getUser() {
         return user;
@@ -15,5 +17,21 @@ public class UserSearchResponse {
 
     public void setUser(F2DUser user) {
         this.user = user;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isSuccess() {
+        return isSuccess;
+    }
+
+    public void setSuccess(boolean success) {
+        isSuccess = success;
     }
 }

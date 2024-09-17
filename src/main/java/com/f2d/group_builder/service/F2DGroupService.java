@@ -3,6 +3,8 @@ package com.f2d.group_builder.service;
 import com.f2d.group_builder.domain.*;
 import com.f2d.group_builder.feign.F2DUserAuthClient;
 import com.f2d.group_builder.repository.F2dGroupRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +20,14 @@ public class F2DGroupService {
     private F2dGroupRepository f2dGroupRepository;
     @Autowired
     private F2DUserAuthClient f2DUserAuthClient;
+    private static final Logger LOGGER = LoggerFactory.getLogger(F2DGroupService.class);
 
     public F2DGroupListResponse retrieveAllF2dGroups() {
         F2DGroupListResponse response = new F2DGroupListResponse();
         List<F2DGroup> list = f2dGroupRepository.findAll();
         response.setList(list);
+
+        LOGGER.info("Retrieving list of groups...");
 
         return response;
     }
@@ -31,6 +36,8 @@ public class F2DGroupService {
         F2DGroupSearchResponse response = new F2DGroupSearchResponse();
         F2DGroup f2dGroup = f2dGroupRepository.findById(groupId).orElseGet(F2DGroup::new);
         response.setF2dGroup(f2dGroup);
+
+        LOGGER.info("Finding group with ID: " + groupId);
 
         return response;
     }
@@ -48,6 +55,8 @@ public class F2DGroupService {
             if (Objects.nonNull(group.getGroupId())) {
                 response.setSuccess(true);
                 response.setMessage(AppConstant.ADD_UPDATE_SUCCESS_MSG);
+
+                LOGGER.info("Adding group: " + group.getGroupName());
             } else {
                 response.setSuccess(false);
                 response.setMessage(AppConstant.ADD_UPDATE_FAILURE_MSG);
@@ -102,12 +111,14 @@ public class F2DGroupService {
             if (Objects.nonNull(updatedGroupDetails.getGroupId())) {
                 response.setSuccess(true);
                 response.setMessage(AppConstant.ADD_UPDATE_SUCCESS_MSG);
+
+                LOGGER.info("Updating group: " + group.getGroupName());
             } else {
                 response.setSuccess(false);
                 response.setMessage(AppConstant.ADD_UPDATE_FAILURE_MSG);
             }
 
-            response.setF2dGroup(updatedGroupDetails); // Use the updated group details
+            response.setF2dGroup(updatedGroupDetails);
         } else {
             response.setSuccess(false);
             response.setMessage("Group not found.");
@@ -121,6 +132,8 @@ public class F2DGroupService {
         F2DGroup group = retrieveGroupById(groupId).getF2dGroup();
         if (Objects.nonNull(group)) {
             f2dGroupRepository.deleteById(groupId);
+
+            LOGGER.info("Deleting group with ID: " + groupId);
         }
 
         response.setF2dGroup(group);

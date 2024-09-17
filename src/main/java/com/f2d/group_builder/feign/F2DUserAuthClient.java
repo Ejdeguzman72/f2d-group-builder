@@ -9,7 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = AppConstant.F2D_USER_AUTHENTICATION, url = AppConstant.LOCALHOST,configuration = FeignConfig.class)
+@FeignClient(name = AppConstant.F2D_USER_AUTHENTICATION,
+        url = AppConstant.LOCALHOST,
+        configuration = FeignConfig.class,
+        fallback = F2DUserAuthClientFallback.class)
 public interface F2DUserAuthClient {
 
     @GetMapping(UriConstants.F2D_USER_AUTH_RELATIVE_PATH)
