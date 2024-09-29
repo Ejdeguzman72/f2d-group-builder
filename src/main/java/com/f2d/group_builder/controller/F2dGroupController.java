@@ -19,7 +19,7 @@ public class F2dGroupController {
         return f2dGroupService.retrieveAllF2dGroups();
     }
 
-    @GetMapping(value = UriConstants.GET_F2D_GROUP_BY_ID)
+    @GetMapping(value = "/groups/search/id/{groupId}")
     public F2DGroupSearchResponse retrieveGroupById(@PathVariable UUID groupId) {
         return f2dGroupService.retrieveGroupById(groupId);
     }

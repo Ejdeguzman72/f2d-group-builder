@@ -7,6 +7,7 @@ import com.f2d.group_builder.repository.F2dGroupRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -51,8 +52,6 @@ public class F2DGroupService {
 
         // Set the UUID for both F2DGroup and ChatGroup
         request.setGroupId(f2dGroupChatId); // Set the generated UUID
-        request.setCreateTime(LocalDate.now());
-        request.setLastUpdateTime(LocalDate.now());
 
         // Check for duplicate group names
         if (checkGroupNameDuplicate(request.getGroupName())) {
@@ -78,10 +77,10 @@ public class F2DGroupService {
                 // Create a chat group for the newly created F2DGroup
                 ChatGroupAddUpdateRequest chatGroupAddUpdateRequest = new ChatGroupAddUpdateRequest();
                 chatGroupAddUpdateRequest.setChatGroupId(f2dGroupChatId);  // Use the same UUID
-                chatGroupAddUpdateRequest.setName(request.getGroupName());
+                chatGroupAddUpdateRequest.setGroupName(request.getGroupName());
                 chatGroupAddUpdateRequest.setCreateDate(LocalDate.now());
                 chatGroupAddUpdateRequest.setLastUpdatetime(LocalDate.now());
-                chatGroupAddUpdateRequest.setF2dGroupId(f2dGroupChatId);  // Same UUID for association
+                chatGroupAddUpdateRequest.setGroupId(f2dGroupChatId);  // Same UUID for association
 
                 // Log and pass to external service
                 LOGGER.info("Calling chatroom service to create chat group with chatGroupId: " + f2dGroupChatId);
@@ -93,9 +92,10 @@ public class F2DGroupService {
 
                     ChatGroup chatGroup = new ChatGroup();
                     chatGroup.setChatGroupId(f2dGroupChatId);  // Same UUID as F2DGroup
-                    chatGroup.setName(chatGroupAddUpdateRequest.getName());
+                    chatGroup.setGroupName(chatGroupAddUpdateRequest.getGroupName());
                     chatGroup.setCreateDate(LocalDate.now());
                     chatGroup.setLastUpdateTime(LocalDate.now());
+                    chatGroup.setF2dGroup(group);
 
                     response.setChatGroup(chatGroup);
                 } else {
@@ -149,7 +149,7 @@ public class F2DGroupService {
             Set<Long> userIdSet = addUsersToGroup(request.getUserIdSet(), groupId);
             group.setUserIdSet(userIdSet);
 
-            group.setCreateTime(request.getCreateTime());
+            group.setCreateTime(LocalDate.now());
             group.setLastUpdateTime(LocalDate.now());
 
             F2DGroup updatedGroupDetails = f2dGroupRepository.save(group); // Save the `group` entity
