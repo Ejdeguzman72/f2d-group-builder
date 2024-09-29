@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class F2DGroupAddUpdateResponse {
 
     F2DGroup f2dGroup;
+    ChatGroup chatGroup;
     boolean isSuccess;
     String message;
 
@@ -19,6 +20,14 @@ public class F2DGroupAddUpdateResponse {
 
     public void setF2dGroup(F2DGroup f2dGroup) {
         this.f2dGroup = f2dGroup;
+    }
+
+    public ChatGroup getChatGroup() {
+        return chatGroup;
+    }
+
+    public void setChatGroup(ChatGroup chatGroup) {
+        this.chatGroup = chatGroup;
     }
 
     public boolean isSuccess() {

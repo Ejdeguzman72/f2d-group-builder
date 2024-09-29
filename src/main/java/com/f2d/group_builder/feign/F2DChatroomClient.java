@@ -14,5 +14,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface F2DChatroomClient {
 
     @PostMapping(UriConstants.F2D_CREATE_CHAT_GROUP_RELATIVE_PATH_URI)
-    ResponseEntity<ChatGroupAddUpdateResponse> createChatGroup(@RequestBody ChatGroupAddUpdateRequest request);
+    ResponseEntity<ChatGroupAddUpdateResponse> createChatGroup(ChatGroupAddUpdateRequest request);
 }

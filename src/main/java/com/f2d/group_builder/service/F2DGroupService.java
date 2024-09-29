@@ -1,6 +1,7 @@
 package com.f2d.group_builder.service;
 
 import com.f2d.group_builder.domain.*;
+import com.f2d.group_builder.feign.F2DChatroomClient;
 import com.f2d.group_builder.feign.F2DUserAuthClient;
 import com.f2d.group_builder.repository.F2dGroupRepository;
 import org.slf4j.Logger;
@@ -20,6 +21,8 @@ public class F2DGroupService {
     private F2dGroupRepository f2dGroupRepository;
     @Autowired
     private F2DUserAuthClient f2DUserAuthClient;
+    @Autowired
+    private F2DChatroomClient chatroomClient;
     private static final Logger LOGGER = LoggerFactory.getLogger(F2DGroupService.class);
 
     public F2DGroupListResponse retrieveAllF2dGroups() {
@@ -43,37 +46,82 @@ public class F2DGroupService {
     }
 
     public F2DGroupAddUpdateResponse createF2DGroup(F2DGroupAddUpdateRequest request) throws Exception {
+        final UUID f2dGroupChatId = UUID.randomUUID();
         F2DGroupAddUpdateResponse response = new F2DGroupAddUpdateResponse();
+
+        // Setting up request fields
+        request.setGroupId(f2dGroupChatId);
         request.setCreateTime(LocalDate.now());
         request.setLastUpdateTime(LocalDate.now());
+
+        // Check if group name already exists
         if (checkGroupNameDuplicate(request.getGroupName())) {
-            response.setF2dGroup(new F2DGroup());
+            response.setF2dGroup(null);  // Set to null instead of new F2DGroup for clarity
             response.setSuccess(false);
             response.setMessage(AppConstant.DUPLICATE_ENTRY);
             return response;
         }
-        F2DGroup group = f2dGroupRepository.save(request);
+
+        // Map the request to F2DGroup entity
+        F2DGroup group = new F2DGroup();
+        group.setGroupId(f2dGroupChatId);
+        group.setGroupName(request.getGroupName());
+        group.setCreateTime(LocalDate.now());
+        group.setLastUpdateTime(LocalDate.now());
 
         try {
+            // Save the F2DGroup entity
+            group = f2dGroupRepository.save(group);
+
             if (Objects.nonNull(group.getGroupId())) {
                 response.setSuccess(true);
                 response.setMessage(AppConstant.ADD_UPDATE_SUCCESS_MSG);
 
                 LOGGER.info("Adding group: " + group.getGroupName());
+                LOGGER.info("Creating chat group for f2d-group...");
+
+                // Create a chat group for the newly created F2DGroup
+                ChatGroupAddUpdateRequest chatGroupAddUpdateRequest = new ChatGroupAddUpdateRequest();
+                chatGroupAddUpdateRequest.setChatGroupId(f2dGroupChatId);  // Use the same UUID
+                chatGroupAddUpdateRequest.setName(request.getGroupName());
+                chatGroupAddUpdateRequest.setCreateDate(LocalDate.now());
+                chatGroupAddUpdateRequest.setLastUpdatetime(LocalDate.now());
+                chatGroupAddUpdateRequest.setF2dGroupId(f2dGroupChatId);  // Same ID for association
+
+                // Log the request details
+                LOGGER.info("Creating chat group with chatGroupId: " + chatGroupAddUpdateRequest.getChatGroupId());
+
+                // Call external service to create chat group
+                ResponseEntity<ChatGroupAddUpdateResponse> chatGroupAddUpdateResponse = chatroomClient.createChatGroup(chatGroupAddUpdateRequest);
+
+                if (chatGroupAddUpdateResponse.getStatusCode() == HttpStatus.OK) {
+                    ChatGroup chatGroup = new ChatGroup();
+                    chatGroup.setChatGroupId(f2dGroupChatId);  // Same ID as F2DGroup
+                    chatGroup.setName(chatGroupAddUpdateRequest.getName());
+                    chatGroup.setCreateDate(LocalDate.now());
+                    chatGroup.setLastUpdateTime(LocalDate.now());
+
+                    response.setChatGroup(chatGroup);
+                } else {
+                    LOGGER.error("Failed to create chat group. Status code: " + chatGroupAddUpdateResponse.getStatusCode());
+                    response.setSuccess(false);
+                    response.setMessage("Failed to create associated chat group.");
+                }
             } else {
                 response.setSuccess(false);
                 response.setMessage(AppConstant.ADD_UPDATE_FAILURE_MSG);
             }
         } catch (Exception e) {
+            LOGGER.error("Error occurred while creating F2D group: ", e);
             response.setSuccess(false);
             response.setMessage("An exception occurred while saving the group: " + e.getMessage());
         }
 
-        response.setF2dGroup(group);
+        response.setF2dGroup(group);  // Set the saved group in the response
         return response;
     }
 
-        public Set<Long> addUsersToGroup(Set<Long> userIdSet, UUID groupId) {
+    public Set<Long> addUsersToGroup(Set<Long> userIdSet, UUID groupId) {
             Set<Long> validUserIdSet = new HashSet<>();
 
             if (userIdSet != null && !userIdSet.isEmpty()) {
