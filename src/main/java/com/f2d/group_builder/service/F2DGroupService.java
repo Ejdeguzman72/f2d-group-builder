@@ -47,7 +47,10 @@ public class F2DGroupService {
         request.setCreateTime(LocalDate.now());
         request.setLastUpdateTime(LocalDate.now());
         if (checkGroupNameDuplicate(request.getGroupName())) {
-            throw new Exception("Duplicate entry");
+            response.setF2dGroup(new F2DGroup());
+            response.setSuccess(false);
+            response.setMessage(AppConstant.DUPLICATE_ENTRY);
+            return response;
         }
         F2DGroup group = f2dGroupRepository.save(request);
 

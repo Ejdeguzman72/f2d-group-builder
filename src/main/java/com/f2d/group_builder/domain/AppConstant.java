@@ -3,6 +3,7 @@ package com.f2d.group_builder.domain;
 public class AppConstant {
 
     public static final String PATH_VARIABLE_USERNAME = "username";
+    public static final String DUPLICATE_ENTRY = "DUPLICATE_ENTRY";
     public static String ADD_UPDATE_SUCCESS_MSG = "ADD/UPDATE F2DGROUP HAS BEEN ADDED SUCCESSFULLY";
     public static String ADD_UPDATE_FAILURE_MSG = "ADD/UPDATE F2DGROUP HAS FAILED";
     public static final String F2D_USER_AUTHENTICATION = "F2D-USER-AUTHENTICATION";
@@ -18,4 +19,5 @@ public class AppConstant {
     public static final String ADD_UPDATE_GROUP_MESSAGE_FAILURE_MSG = "GROUP MESSAGE ADD/UPDATE FAILURE";
     public static final String DELETE_GROUP_MESSAGE_SUCCESS_MSG = "GROUP MESSAGE DELETE SUCCESS";
     public static final String DELETE_GROUP_MESSAGE_FAILURE_MSG = "GROUP MESSAGE DELETE FAILURE";
+
 }
