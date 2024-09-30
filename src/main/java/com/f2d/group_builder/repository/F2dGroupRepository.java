@@ -8,4 +8,6 @@ import java.util.UUID;
 
 @Repository
 public interface F2dGroupRepository extends JpaRepository<F2DGroup, UUID> {
+
+    F2DGroup findF2DGroupByGroupName(String groupName);
 }

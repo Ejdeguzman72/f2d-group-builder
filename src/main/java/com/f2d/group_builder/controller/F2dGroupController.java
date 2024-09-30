@@ -24,6 +24,11 @@ public class F2dGroupController {
         return f2dGroupService.retrieveGroupById(groupId);
     }
 
+    @GetMapping(value = "/groups/search/groupName/{groupName}")
+    public F2DGroupSearchResponse retrieveGroupByGroupName(@PathVariable String groupName) {
+        return f2dGroupService.retrieveGroupByGroupName(groupName);
+    }
+
     @PostMapping(value = UriConstants.ADD_F2D_GROUP)
     public F2DGroupAddUpdateResponse createF2DGroup(@RequestBody F2DGroupAddUpdateRequest request) throws Exception {
         return f2dGroupService.createF2DGroup(request);

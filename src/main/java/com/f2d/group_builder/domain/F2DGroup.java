@@ -16,10 +16,10 @@ public class F2DGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "group_id", columnDefinition = "UUID", updatable = false, nullable = false)
+    @Column(name = "group_id", columnDefinition = "UUID", updatable = false)
     private UUID groupId;
 
-    @Column(name = "group_name", nullable = false)
+    @Column(name = "group_name")
     private String groupName;
 
     @Column(name = "group_type")
@@ -36,7 +36,10 @@ public class F2DGroup {
     @Column(name = "last_update_time")
     private LocalDate lastUpdateTime;
 
-    // Getters and Setters
+    @OneToOne
+    @JoinColumn(name = "chatGroupId")
+    private ChatGroup chatGroup;
+
     public UUID getGroupId() {
         return groupId;
     }
@@ -83,5 +86,13 @@ public class F2DGroup {
 
     public void setLastUpdateTime(LocalDate lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
+    }
+
+    public ChatGroup getChatGroup() {
+        return chatGroup;
+    }
+
+    public void setChatGroup(ChatGroup chatGroup) {
+        this.chatGroup = chatGroup;
     }
 }
