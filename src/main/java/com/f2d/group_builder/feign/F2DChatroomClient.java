@@ -16,4 +16,7 @@ public interface F2DChatroomClient {
 
     @PostMapping(UriConstants.F2D_CREATE_CHAT_GROUP_RELATIVE_PATH_URI)
     ResponseEntity<ChatGroupAddUpdateResponse> createChatGroup(@RequestBody ChatGroupAddUpdateRequest request);
+
+    @GetMapping(UriConstants.F2D_RETRIEVE_ALL_CHAT_GROUPS_PATH_URI)
+    ResponseEntity<ChatGroupListResponse> retrieveAllChatGroups();
 }

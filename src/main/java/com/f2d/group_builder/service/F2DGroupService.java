@@ -8,15 +8,12 @@ import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -32,8 +29,19 @@ public class F2DGroupService {
 
     public F2DGroupListResponse retrieveAllF2dGroups() {
         F2DGroupListResponse response = new F2DGroupListResponse();
+        ResponseEntity<ChatGroupListResponse> chatGroupListResponse = chatroomClient.retrieveAllChatGroups();
+        List<ChatGroup> chatGroupList = chatroomClient.retrieveAllChatGroups().getBody().getList();
+        List<UUID> chatGroupIdList = chatGroupList.stream().map(ChatGroup::getChatGroupId).toList();
+        List<F2DGroup> result = new ArrayList<>();
         List<F2DGroup> list = f2dGroupRepository.findAll();
-        response.setList(list);
+
+        for (F2DGroup group : list) {
+            UUID chatGroupId = group.getChatGroup().getChatGroupId();
+            if (chatGroupIdList.contains(chatGroupId)) {
+                result.add(group);
+            }
+        }
+        response.setList(result);
 
         LOGGER.info("Retrieving list of groups...");
 
