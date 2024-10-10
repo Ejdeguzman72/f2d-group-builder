@@ -29,19 +29,8 @@ public class F2DGroupService {
 
     public F2DGroupListResponse retrieveAllF2dGroups() {
         F2DGroupListResponse response = new F2DGroupListResponse();
-        ResponseEntity<ChatGroupListResponse> chatGroupListResponse = chatroomClient.retrieveAllChatGroups();
-        List<ChatGroup> chatGroupList = chatroomClient.retrieveAllChatGroups().getBody().getList();
-        List<UUID> chatGroupIdList = chatGroupList.stream().map(ChatGroup::getChatGroupId).toList();
-        List<F2DGroup> result = new ArrayList<>();
         List<F2DGroup> list = f2dGroupRepository.findAll();
-
-        for (F2DGroup group : list) {
-            UUID chatGroupId = group.getChatGroup().getChatGroupId();
-            if (chatGroupIdList.contains(chatGroupId)) {
-                result.add(group);
-            }
-        }
-        response.setList(result);
+        response.setList(list);
 
         LOGGER.info("Retrieving list of groups...");
 
