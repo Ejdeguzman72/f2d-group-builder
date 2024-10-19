@@ -58,7 +58,12 @@ public class GroupMessageService {
         request.setCreateDatetime(LocalDate.now());
         request.setLastUpdateTime(LocalDate.now());
 
-        GroupMessage groupMessage = groupMessageRepository.save(request);
+        GroupMessage groupMessage = new GroupMessage();
+        groupMessage.setContent(request.getContent());
+        groupMessage.setCreateDatetime(LocalDate.now());
+        groupMessage.setLastUpdateTime(LocalDate.now());
+        groupMessage.setReactions(request.getReactions());
+        groupMessage = groupMessageRepository.save(groupMessage);
         try {
             if (Objects.nonNull(groupMessage.getGroupMsgId())) {
                 response.setSuccess(true);
