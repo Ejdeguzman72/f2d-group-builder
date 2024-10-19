@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -16,6 +17,7 @@ public class GroupMessageAddUpdateRequest {
     LocalDate createDatetime;
     LocalDate lastUpdateTime;
     int reactions;
+    UUID f2dGroupId;
 
     public long getGroupMsgId() {
         return groupMsgId;
@@ -55,5 +57,13 @@ public class GroupMessageAddUpdateRequest {
 
     public void setReactions(int reactions) {
         this.reactions = reactions;
+    }
+
+    public UUID getF2dGroupId() {
+        return f2dGroupId;
+    }
+
+    public void setF2dGroupId(UUID f2dGroupId) {
+        this.f2dGroupId = f2dGroupId;
     }
 }

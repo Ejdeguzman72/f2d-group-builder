@@ -1,6 +1,7 @@
 package com.f2d.group_builder.service;
 
 import com.f2d.group_builder.domain.*;
+import com.f2d.group_builder.repository.F2dGroupRepository;
 import com.f2d.group_builder.repository.GroupMessageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,8 @@ public class GroupMessageService {
 
     @Autowired
     private GroupMessageRepository groupMessageRepository;
+    @Autowired
+    private F2DGroupService f2dGroupService;
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupMessageService.class);
 
     public GroupMsgListResponse retrieveGroupMessageList() {
@@ -63,6 +66,10 @@ public class GroupMessageService {
         groupMessage.setCreateDatetime(LocalDate.now());
         groupMessage.setLastUpdateTime(LocalDate.now());
         groupMessage.setReactions(request.getReactions());
+        if (request.getF2dGroupId() != null) {
+            F2DGroup f2dGroup = f2dGroupService.retrieveGroupById(request.getF2dGroupId()).getF2dGroup();
+            groupMessage.setF2dGroup(f2dGroup);
+        }
         groupMessage = groupMessageRepository.save(groupMessage);
         try {
             if (Objects.nonNull(groupMessage.getGroupMsgId())) {
