@@ -19,6 +19,7 @@ public class GroupMessage {
     LocalDate createDatetime;
     LocalDate lastUpdateTime;
     int reactions;
+    F2DGroup f2dGroup;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,5 +66,15 @@ public class GroupMessage {
 
     public void setReactions(int reactions) {
         this.reactions = reactions;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    public F2DGroup getF2dGroup() {
+        return f2dGroup;
+    }
+
+    public void setF2dGroup(F2DGroup f2dGroup) {
+        this.f2dGroup = f2dGroup;
     }
 }
