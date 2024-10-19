@@ -4,8 +4,56 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.time.LocalDate;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @CrossOrigin
-public class GroupMessageAddUpdateRequest extends GroupMessage {
+public class GroupMessageAddUpdateRequest {
+
+    long groupMsgId;
+    String content;
+    LocalDate createDatetime;
+    LocalDate lastUpdateTime;
+    int reactions;
+
+    public long getGroupMsgId() {
+        return groupMsgId;
+    }
+
+    public void setGroupMsgId(long groupMsgId) {
+        this.groupMsgId = groupMsgId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public LocalDate getCreateDatetime() {
+        return createDatetime;
+    }
+
+    public void setCreateDatetime(LocalDate createDatetime) {
+        this.createDatetime = createDatetime;
+    }
+
+    public LocalDate getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(LocalDate lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+    }
+
+    public int getReactions() {
+        return reactions;
+    }
+
+    public void setReactions(int reactions) {
+        this.reactions = reactions;
+    }
 }
