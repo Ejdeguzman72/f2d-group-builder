@@ -62,6 +62,7 @@ public class GroupMessageService {
         request.setLastUpdateTime(LocalDate.now());
 
         GroupMessage groupMessage = new GroupMessage();
+        groupMessage.setTitle(request.getTitle());
         groupMessage.setContent(request.getContent());
         groupMessage.setCreateDatetime(LocalDate.now());
         groupMessage.setLastUpdateTime(LocalDate.now());
@@ -96,6 +97,7 @@ public class GroupMessageService {
 
         if (Objects.nonNull(groupMessage)) {
             groupMessage.setGroupMsgId(request.getGroupMsgId());
+            groupMessage.setTitle(request.getTitle());
             groupMessage.setContent(request.getContent());
             groupMessage.setReactions(request.getReactions());
             groupMessage.setCreateDatetime(request.getCreateDatetime());

@@ -13,6 +13,7 @@ import java.util.UUID;
 public class GroupMessageAddUpdateRequest {
 
     long groupMsgId;
+    String title;
     String content;
     LocalDate createDatetime;
     LocalDate lastUpdateTime;
@@ -25,6 +26,14 @@ public class GroupMessageAddUpdateRequest {
 
     public void setGroupMsgId(long groupMsgId) {
         this.groupMsgId = groupMsgId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {
