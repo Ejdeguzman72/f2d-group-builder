@@ -11,7 +11,7 @@ public class AppConstant {
 
     public static final String PATH_VARIABLE_USER_ID = "userId";
     public static final String LOCALHOST = "http://localhost:8080";
-    public static final String RASPBERRY_PI_F2D = "http://192.168.1.54:8080";
+    public static final String RASPBERRY_PI_F2D = "http://192.168.1.54:8083";
     public static final String AUTH_CLIENT_FALLBACK_MSG = "USER AUTH CLIENT SERVICE UNAVAILABLE";
     public static final String RETRIEVE_GROUP_MESSAGE_LIST_SUCCESS_MSG = "GROUP MESSAGE RETRIEVED SUCCESS";
     public static final String RETRIEVE_GROUP_MESSAGE_LIST_FAILURE_MSG = "GROUP MESSAGE RETRIEVED FAILURE";
