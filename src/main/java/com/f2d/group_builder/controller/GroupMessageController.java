@@ -5,6 +5,8 @@ import com.f2d.group_builder.service.GroupMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @CrossOrigin
 public class GroupMessageController {
@@ -22,10 +24,10 @@ public class GroupMessageController {
         return groupMessageService.retrieveGroupMessageById(groupMessageId);
     }
 
-//    @GetMapping(UriConstants.GET_GROUP_MESSAGES_BY_GROUP_URI)
-//    public GroupMsgListResponse retrieveGroupMessagesByGroup(@PathVariable long groupId) {
-//        return groupMessageService.retrieveGroupMessagesByGroup(groupId);
-//    }
+    @GetMapping(UriConstants.GET_GROUP_MESSAGES_BY_GROUP_URI)
+    public GroupMsgListResponse retrieveGroupMessagesByGroup(@PathVariable UUID groupId) {
+        return groupMessageService.retrieveGroupMessagesByGroup(groupId);
+    }
 
     @PostMapping(UriConstants.CREATE_GROUP_MESSAGE_URI)
     public GroupMsgAddUpdateResponse createGroupMessage(@RequestBody GroupMessageAddUpdateRequest request) {
