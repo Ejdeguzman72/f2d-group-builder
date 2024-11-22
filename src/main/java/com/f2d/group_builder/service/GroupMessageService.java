@@ -1,7 +1,6 @@
 package com.f2d.group_builder.service;
 
 import com.f2d.group_builder.domain.*;
-import com.f2d.group_builder.repository.F2dGroupRepository;
 import com.f2d.group_builder.repository.GroupMessageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
