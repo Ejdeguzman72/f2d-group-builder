@@ -75,8 +75,8 @@ public class GroupMessageService {
         groupMessage.setCreateDatetime(LocalDate.now());
         groupMessage.setLastUpdateTime(LocalDate.now());
         groupMessage.setReactions(request.getReactions());
-        if (request.getF2dGroupId() != null) {
-            F2DGroup f2dGroup = f2dGroupService.retrieveGroupById(request.getF2dGroupId()).getF2dGroup();
+        if (request.getGroupId() != null) {
+            F2DGroup f2dGroup = f2dGroupService.retrieveGroupById(request.getGroupId()).getF2dGroup();
             groupMessage.setF2dGroup(f2dGroup);
         }
         groupMessage = groupMessageRepository.save(groupMessage);
@@ -104,12 +104,10 @@ public class GroupMessageService {
         GroupMessage groupMessage = retrieveGroupMessageById(groupMessageId).getGroupMessage();
 
         if (Objects.nonNull(groupMessage)) {
-            groupMessage.setGroupMsgId(request.getGroupMsgId());
             groupMessage.setTitle(request.getTitle());
             groupMessage.setContent(request.getContent());
             groupMessage.setReactions(request.getReactions());
-            groupMessage.setCreateDatetime(request.getCreateDatetime());
-            groupMessage.setLastUpdateTime(request.getLastUpdateTime());
+            groupMessage.setLastUpdateTime(LocalDate.now());
 
             GroupMessage updatedGroupMessage = groupMessageRepository.save(groupMessage);
             if (Objects.nonNull(updatedGroupMessage.getGroupMsgId())) {

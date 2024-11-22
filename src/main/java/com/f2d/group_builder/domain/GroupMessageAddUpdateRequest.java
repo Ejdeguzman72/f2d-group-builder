@@ -9,6 +9,7 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @CrossOrigin
 public class GroupMessageAddUpdateRequest {
+    String title;
     String content;
     int reactions;
     UUID groupId;
@@ -19,6 +20,14 @@ public class GroupMessageAddUpdateRequest {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public int getReactions() {
