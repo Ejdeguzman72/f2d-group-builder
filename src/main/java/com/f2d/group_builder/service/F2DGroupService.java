@@ -159,7 +159,8 @@ public class F2DGroupService {
             group.setGroupId(request.getGroupId());
             group.setGroupType(request.getGroupType());
 
-            Set<Long> userIdSet = addUsersToGroup(request.getUserIdSet());
+//            Set<Long> userIdSet = addUsersToGroup(request.getUserIdSet());
+            Set<Long> userIdSet = request.getUserIdSet();
             group.setUserIdSet(userIdSet);
 
             group.setCreateTime(LocalDate.now());

@@ -15,6 +15,7 @@ import java.time.LocalDate;
 public class GroupMessage {
 
     long groupMsgId;
+    String title;
     String content;
     LocalDate createDatetime;
     LocalDate lastUpdateTime;
@@ -30,6 +31,15 @@ public class GroupMessage {
 
     public void setGroupMsgId(long groupMsgId) {
         this.groupMsgId = groupMsgId;
+    }
+
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Column(name = "content")

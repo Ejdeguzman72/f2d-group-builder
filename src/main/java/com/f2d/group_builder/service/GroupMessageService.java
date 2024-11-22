@@ -1,13 +1,13 @@
 package com.f2d.group_builder.service;
 
 import com.f2d.group_builder.domain.*;
+import com.f2d.group_builder.repository.F2dGroupRepository;
 import com.f2d.group_builder.repository.GroupMessageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +18,8 @@ public class GroupMessageService {
 
     @Autowired
     private GroupMessageRepository groupMessageRepository;
+    @Autowired
+    private F2DGroupService f2dGroupService;
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupMessageService.class);
 
     public GroupMsgListResponse retrieveGroupMessageList() {
@@ -68,7 +70,17 @@ public class GroupMessageService {
     public GroupMsgAddUpdateResponse createGroupMessage(GroupMessageAddUpdateRequest request) {
         GroupMsgAddUpdateResponse response = new GroupMsgAddUpdateResponse();
 
-        GroupMessage groupMessage = groupMessageRepository.save(request);
+        GroupMessage groupMessage = new GroupMessage();
+        groupMessage.setTitle(request.getTitle());
+        groupMessage.setContent(request.getContent());
+        groupMessage.setCreateDatetime(LocalDate.now());
+        groupMessage.setLastUpdateTime(LocalDate.now());
+        groupMessage.setReactions(request.getReactions());
+        if (request.getF2dGroupId() != null) {
+            F2DGroup f2dGroup = f2dGroupService.retrieveGroupById(request.getF2dGroupId()).getF2dGroup();
+            groupMessage.setF2dGroup(f2dGroup);
+        }
+        groupMessage = groupMessageRepository.save(groupMessage);
         try {
             if (Objects.nonNull(groupMessage.getGroupMsgId())) {
                 response.setSuccess(true);
@@ -94,6 +106,7 @@ public class GroupMessageService {
 
         if (Objects.nonNull(groupMessage)) {
             groupMessage.setGroupMsgId(request.getGroupMsgId());
+            groupMessage.setTitle(request.getTitle());
             groupMessage.setContent(request.getContent());
             groupMessage.setReactions(request.getReactions());
             groupMessage.setCreateDatetime(request.getCreateDatetime());
