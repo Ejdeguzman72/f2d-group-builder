@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class GroupMessageService {
@@ -39,6 +40,16 @@ public class GroupMessageService {
         return response;
     }
 
+    public GroupMsgListResponse retrieveGroupMessagesByGroup(UUID groupId) {
+        GroupMsgListResponse response = new GroupMsgListResponse();
+        List<GroupMessage> list = groupMessageRepository.findByF2dGroup_GroupId(groupId);
+        response.setList(list);
+        response.setMessage(AppConstant.RETRIEVE_GROUP_MESSAGE_LIST_SUCCESS_MSG);
+        response.setSuccess(true);
+
+        return response;
+    }
+
     public GroupMessageSearchResponse retrieveGroupMessageById(long groupMessageId) {
         GroupMessageSearchResponse response = new GroupMessageSearchResponse();
         GroupMessage groupMessage = groupMessageRepository.findById(groupMessageId).orElseGet(GroupMessage::new);
@@ -57,8 +68,6 @@ public class GroupMessageService {
 
     public GroupMsgAddUpdateResponse createGroupMessage(GroupMessageAddUpdateRequest request) {
         GroupMsgAddUpdateResponse response = new GroupMsgAddUpdateResponse();
-        request.setCreateDatetime(LocalDate.now());
-        request.setLastUpdateTime(LocalDate.now());
 
         GroupMessage groupMessage = new GroupMessage();
         groupMessage.setTitle(request.getTitle());
