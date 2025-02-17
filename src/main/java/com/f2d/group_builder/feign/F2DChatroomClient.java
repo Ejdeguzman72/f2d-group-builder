@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = AppConstant.F2D_CHATROOM,
-        url = AppConstant.LOCALHOST,
+        url = AppConstant.RASPBERRY_PI_F2D,
         configuration = FeignConfig.class,
         fallback = F2DChatroomClientFallback.class)
 public interface F2DChatroomClient {
