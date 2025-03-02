@@ -36,10 +36,6 @@ public class F2DGroup {
     @Column(name = "last_update_time")
     private LocalDate lastUpdateTime;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "chat_group_id", referencedColumnName = "chat_group_id")
-    private ChatGroup chatGroup;
-
     public UUID getGroupId() {
         return groupId;
     }
@@ -86,13 +82,5 @@ public class F2DGroup {
 
     public void setLastUpdateTime(LocalDate lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
-    }
-
-    public ChatGroup getChatGroup() {
-        return chatGroup;
-    }
-
-    public void setChatGroup(ChatGroup chatGroup) {
-        this.chatGroup = chatGroup;
     }
 }

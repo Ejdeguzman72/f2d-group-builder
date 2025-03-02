@@ -98,7 +98,7 @@ public class F2DGroupService {
                 f2dChatGroup.setCreateDate(LocalDate.now());
                 f2dChatGroup.setLastUpdateTime(LocalDate.now());
 
-                group.setChatGroup(f2dChatGroup);
+//                group.setChatGroup(f2dChatGroup);
                 group = f2dGroupRepository.save(group);
                 LOGGER.info("Updating f2dGroup for chatGroupId: " + f2dChatGroup.getChatGroupId());
                 response.setChatGroup(f2dChatGroup);
