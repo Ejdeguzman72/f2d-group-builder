@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = AppConstant.F2D_USER_AUTHENTICATION,
-        url = AppConstant.RASPBERRY_PI_F2D,
+        url = AppConstant.LOCALHOST,
         configuration = FeignConfig.class,
         fallback = F2DUserAuthClientFallback.class)
 public interface F2DUserAuthClient {
