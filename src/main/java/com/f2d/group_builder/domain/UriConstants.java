@@ -17,7 +17,7 @@ public class UriConstants {
     public static final String CREATE_GROUP_MESSAGE_URI = "/group-message/create";
     public static final String UPDATE_GROUP_MESSAGE_URI = "/group-message/update/{groupMessageId}";
     public static final String DELETE_GROUP_MESSAGE_URI = "/group-message/delete/{groupMessageId}";
-    public static final String F2D_CREATE_CHAT_GROUP_RELATIVE_PATH_URI = "/chat-groups/create";
-    public static final String F2D_RETRIEVE_ALL_CHAT_GROUPS_PATH_URI = "/chat-groups/all";
+    public static final String F2D_CREATE_CHAT_GROUP_RELATIVE_PATH_URI = "/chatroom/chat-groups/create";
+    public static final String F2D_RETRIEVE_ALL_CHAT_GROUPS_PATH_URI = "/chatroom/chat-groups/all";
     public static final String GET_GROUP_MESSAGES_BY_GROUP_URI = "/group-message/all/search/group/{groupId}";
 }

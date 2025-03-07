@@ -75,52 +75,15 @@ public class F2DGroupService {
         group.setGroupType(request.getGroupType());
         group.setCreateTime(LocalDate.now());
         group.setLastUpdateTime(LocalDate.now());
+        f2dGroupRepository.save(group);
 
-        try {
-            group = f2dGroupRepository.save(group);
-            LOGGER.info("Successfully added group: " + group.getGroupName());
-
-            ChatGroupAddUpdateRequest chatGroupAddUpdateRequest = new ChatGroupAddUpdateRequest();
-            chatGroupAddUpdateRequest.setChatGroupId(f2dGroupChatId);
-            chatGroupAddUpdateRequest.setGroupName(request.getGroupName());
-            chatGroupAddUpdateRequest.setCreateDate(LocalDate.now());
-            chatGroupAddUpdateRequest.setLastUpdatetime(LocalDate.now());
-            chatGroupAddUpdateRequest.setGroupId(f2dGroupChatId);
-
-            LOGGER.info("Calling chatroom service to create chat group with chatGroupId: " + chatGroupAddUpdateRequest.getChatGroupId());
-            ResponseEntity<ChatGroupAddUpdateResponse> chatGroupResponse = chatroomClient.createChatGroup(chatGroupAddUpdateRequest);
-
-            if (chatGroupResponse != null && chatGroupResponse.getStatusCode() == HttpStatus.OK) {
-                LOGGER.info("Successfully created chat group with ID: " + f2dGroupChatId);
-                ChatGroup f2dChatGroup = new ChatGroup();
-                f2dChatGroup.setChatGroupId(chatGroupAddUpdateRequest.getChatGroupId());
-                f2dChatGroup.setGroupName(chatGroupAddUpdateRequest.getGroupName());
-                f2dChatGroup.setCreateDate(LocalDate.now());
-                f2dChatGroup.setLastUpdateTime(LocalDate.now());
-
-//                group.setChatGroup(f2dChatGroup);
-                group = f2dGroupRepository.save(group);
-                LOGGER.info("Updating f2dGroup for chatGroupId: " + f2dChatGroup.getChatGroupId());
-                response.setChatGroup(f2dChatGroup);
-                response.setF2dGroup(group);
-                response.setSuccess(true);
-            } else {
-                LOGGER.error("Failed to create chat group. Status: " + (chatGroupResponse != null ? chatGroupResponse.getStatusCode() : "null response"));
-                response.setSuccess(false);
-                response.setMessage("Failed to create chat group.");
-            }
-        } catch (DataIntegrityViolationException e) {
-            LOGGER.error("Database error occurred while creating F2D group: ", e);
+        if (Objects.nonNull(group)) {
+            response.setF2dGroup(group);
+            response.setMessage(AppConstant.ADD_UPDATE_SUCCESS_MSG);
+            response.setSuccess(true);
+        } else {
+            response.setMessage(AppConstant.ADD_UPDATE_FAILURE_MSG);
             response.setSuccess(false);
-            response.setMessage("Database error: " + e.getMessage());
-        } catch (FeignException e) {
-            LOGGER.error("Error occurred while calling chatroom service: ", e);
-            response.setSuccess(false);
-            response.setMessage("Error occurred while communicating with chatroom service: " + e.getMessage());
-        } catch (Exception e) {
-            LOGGER.error("Unexpected error occurred: ", e);
-            response.setSuccess(false);
-            response.setMessage("An unexpected error occurred: " + e.getMessage());
         }
 
         return response;
