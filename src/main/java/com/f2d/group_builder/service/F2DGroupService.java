@@ -173,4 +173,17 @@ public class F2DGroupService {
 
         return result;
     }
+
+    public UserListResponse retrieveAllUsersInGroup(UUID groupId) {
+        UserListResponse response = new UserListResponse();
+        List<F2DUser> userList = new ArrayList<>();
+        F2DGroup group = retrieveGroupById(groupId).getF2dGroup();
+        for (Long userId : group.getUserIdSet()) {
+            F2DUser checkingUser = Objects.requireNonNull(f2DUserAuthClient.getUserInfoById(userId).getBody()).getUser();
+            userList.add(checkingUser);
+        }
+
+        response.setList(userList);
+        return response;
+    }
 }

@@ -20,4 +20,5 @@ public class UriConstants {
     public static final String F2D_CREATE_CHAT_GROUP_RELATIVE_PATH_URI = "/chatroom/chat-groups/create";
     public static final String F2D_RETRIEVE_ALL_CHAT_GROUPS_PATH_URI = "/chatroom/chat-groups/all";
     public static final String GET_GROUP_MESSAGES_BY_GROUP_URI = "/group-message/all/search/group/{groupId}";
+    public static final String GET_USERS_IN_F2D_GROUP = "/groups/retrieve-users/{groupId}";
 }

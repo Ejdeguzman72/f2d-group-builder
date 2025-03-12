@@ -43,4 +43,9 @@ public class F2dGroupController {
     public F2DGroupSearchResponse deleteF2DGroup(@PathVariable UUID groupId) {
         return f2dGroupService.deleteF2dGroup(groupId);
     }
+
+    @GetMapping(value = UriConstants.GET_USERS_IN_F2D_GROUP)
+    public UserListResponse getUsersInGroup(@PathVariable UUID groupId) {
+        return f2dGroupService.retrieveAllUsersInGroup(groupId);
+    }
 }
